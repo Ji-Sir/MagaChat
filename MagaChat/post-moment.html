@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>发布朋友圈</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/icons.css">
+</head>
+<body>
+    <div class="container">
+        <div class="post-moment-page">
+            <!-- 顶部导航 -->
+            <div class="post-header">
+                <div class="header-back">
+                    <i class="icon-chat-outline"></i>
+                </div>
+                <div class="header-actions">
+                    <button class="post-btn" disabled>发表</button>
+                </div>
+            </div>
+
+            <!-- 发布内容区域 -->
+            <div class="post-content">
+                <textarea class="post-text" placeholder="这一刻的想法..." maxlength="140"></textarea>
+                <div class="post-images">
+                    <div class="image-grid"></div>
+                    <div class="add-image">
+                        <input type="file" id="imageInput" accept="image/*" multiple style="display: none">
+                        <i class="icon-image"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 虚拟点赞设置 -->
+            <div class="like-settings">
+                <div class="settings-header">
+                    <h3>虚拟点赞设置</h3>
+                </div>
+                <div class="settings-content">
+                    <div class="like-count-setting">
+                        <label>点赞数量：</label>
+                        <input type="number" min="0" max="999" value="0" class="like-count-input">
+                    </div>
+                    <div class="virtual-users">
+                        <div class="users-header">
+                            <h4>虚拟用户池</h4>
+                            <button class="add-user-btn">添加用户</button>
+                        </div>
+                        <div class="users-list">
+                            <!-- 虚拟用户列表将通过 JS 动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/virtual-users.js"></script>
+    <script src="./js/post-moment.js"></script>
+</body>
+</html>

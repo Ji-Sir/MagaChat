@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>微信</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#07c160">
+    <link rel="apple-touch-icon" href="./images/icons/app-icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="微信">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/icons.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- 聊天列表页面 -->
+            <div class="page" id="chat-list-page">
+                <div class="header">
+                    <h2>微信</h2>
+                    <div class="header-icons">
+                        <span class="icon search-icon"><i class="icon-search"></i></span>
+                        <span class="icon add-icon"><i class="icon-plus"></i></span>
+                    </div>
+                </div>
+                <div class="chat-list">
+                    <!-- 聊天列表项 -->
+                    <div class="chat-item" data-id="1">
+                        <div class="avatar">
+                            <img src="./images/avatar1.jpg" alt="头像">
+                        </div>
+                        <div class="chat-info">
+                            <div class="chat-top">
+                                <span class="name">张三</span>
+                                <span class="time">下午3:50</span>
+                            </div>
+                            <div class="chat-bottom">
+                                <span class="message">你好，最近怎么样？</span>
+                                <span class="badge">2</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-item" data-id="2">
+                        <div class="avatar">
+                            <img src="./images/avatar2.jpg" alt="头像">
+                        </div>
+                        <div class="chat-info">
+                            <div class="chat-top">
+                                <span class="name">李四</span>
+                                <span class="time">上午10:30</span>
+                            </div>
+                            <div class="chat-bottom">
+                                <span class="message">周末有空一起吃饭吗？</span>
+                                <span class="badge">1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-item" data-id="3">
+                        <div class="avatar">
+                            <img src="./images/avatar3.jpg" alt="头像">
+                        </div>
+                        <div class="chat-info">
+                            <div class="chat-top">
+                                <span class="name">微信团队</span>
+                                <span class="time">昨天</span>
+                            </div>
+                            <div class="chat-bottom">
+                                <span class="message">微信版本更新通知</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 联系人页面 -->
+            <div class="page" id="contacts-page" style="display: none;">
+                <div class="header">
+                    <h2>通讯录</h2>
+                    <div class="header-icons">
+                        <span class="icon add-contact-icon"><i class="icon-user-plus"></i></span>
+                    </div>
+                </div>
+                <div class="contacts-list">
+                    <!-- 索引栏 -->
+                    <div class="index-bar">
+                        <span>A</span>
+                        <span>B</span>
+                        <span>C</span>
+                        <span>D</span>
+                        <span>F</span>
+                        <span>G</span>
+                        <span>H</span>
+                        <span>J</span>
+                        <span>K</span>
+                        <span>L</span>
+                        <span>M</span>
+                        <span>N</span>
+                        <span>P</span>
+                        <span>Q</span>
+                        <span>R</span>
+                        <span>S</span>
+                        <span>T</span>
+                        <span>W</span>
+                        <span>X</span>
+                        <span>Y</span>
+                        <span>Z</span>
+                        <span>#</span>
+                    </div>
+                    
+                    <!-- 联系人列表 -->
+                    <div class="contact-group">
+                        <div class="group-header">A</div>
+                        <div class="contact-item">
+                            <div class="avatar">
+                                <img src="./images/avatar4.jpg" alt="头像">
+                            </div>
+                            <div class="name">阿里巴巴</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="avatar">
+                                <img src="./images/avatar5.jpg" alt="头像">
+                            </div>
+                            <div class="name">阿凡达</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-group">
+                        <div class="group-header">B</div>
+                        <div class="contact-item">
+                            <div class="avatar">
+                                <img src="./images/avatar6.jpg" alt="头像">
+                            </div>
+                            <div class="name">白小姐</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="avatar">
+                                <img src="./images/avatar7.jpg" alt="头像">
+                            </div>
+                            <div class="name">宝马4S店</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 发现页面 -->
+            <div class="page" id="discover-page" style="display: none;">
+                <div class="header">
+                    <h2>发现</h2>
+                </div>
+                <div class="discover-list">
+                    <div class="discover-item" onclick="window.location.href='moments.html'">
+                        <div class="discover-icon">
+                            <i class="fa fa-circle"></i>
+                        </div>
+                        <div class="discover-text">朋友圈</div>
+                        <div class="discover-arrow">
+                            <i class="fa fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="discover-item">
+                        <div class="discover-icon">
+                            <i class="fa fa-video-camera"></i>
+                        </div>
+                        <div class="discover-text">视频号</div>
+                        <div class="discover-arrow">
+                            <i class="fa fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="discover-item">
+                        <div class="discover-icon">
+                            <i class="fa fa-qrcode"></i>
+                        </div>
+                        <div class="discover-text">扫一扫</div>
+                        <div class="discover-arrow">
+                            <i class="fa fa-angle-right"></i>
+                        </div>
+                    </div>
+                    <div class="discover-item">
+                        <div class="discover-icon">
+                            <i class="fa fa-gamepad"></i>
+                        </div>
+                        <div class="discover-text">小游戏</div>
+                        <div class="discover-arrow">
+                            <i class="fa fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 我的页面 -->
+            <div class="page" id="me-page" style="display: none;">
+                <div class="header">
+                    <h2>我</h2>
+                    <div class="header-icons">
+                        <span class="icon settings-icon"><i class="fa fa-cog"></i></span>
+                    </div>
+                </div>
+                <div class="me-content">
+                    <div class="me-profile">
+                        <div class="avatar">
+                            <img src="./images/my-avatar.jpg" alt="我的头像">
+                        </div>
+                        <div class="profile-info">
+                            <div class="name">微信用户</div>
+                            <div class="wxid">微信号：wxid_12345</div>
+                        </div>
+                        <div class="profile-qrcode">
+                            <i class="fa fa-qrcode"></i>
+                        </div>
+                        <div class="profile-arrow">
+                            <i class="fa fa-angle-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="me-items">
+                        <div class="me-item">
+                            <div class="me-icon">
+                                <i class="fa fa-credit-card"></i>
+                            </div>
+                            <div class="me-text">支付</div>
+                            <div class="me-arrow">
+                                <i class="fa fa-angle-right"></i>
+                            </div>
+                        </div>
+                        <div class="me-item">
+                            <div class="me-icon">
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="me-text">收藏</div>
+                            <div class="me-arrow">
+                                <i class="fa fa-angle-right"></i>
+                            </div>
+                        </div>
+                        <div class="me-item">
+                            <div class="me-icon">
+                                <i class="fa fa-photo"></i>
+                            </div>
+                            <div class="me-text">相册</div>
+                            <div class="me-arrow">
+                                <i class="fa fa-angle-right"></i>
+                            </div>
+                        </div>
+                        <div class="me-item">
+                            <div class="me-icon">
+                                <i class="fa fa-smile-o"></i>
+                            </div>
+                            <div class="me-text">表情</div>
+                            <div class="me-arrow">
+                                <i class="fa fa-angle-right"></i>
+                            </div>
+                        </div>
+                        <div class="me-item">
+                            <div class="me-icon">
+                                <i class="fa fa-cog"></i>
+                            </div>
+                            <div class="me-text">设置</div>
+                            <div class="me-arrow">
+                                <i class="fa fa-angle-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 聊天详情页面 -->
+            <div class="page" id="chat-detail-page" style="display: none;">
+                <div class="header">
+                    <div class="back-button">
+                        <i class="fa fa-angle-left"></i>
+                    </div>
+                    <h2 class="chat-title">张三</h2>
+                    <div class="header-icons">
+                        <span class="icon more-icon"><i class="fa fa-ellipsis-h"></i></span>
+                    </div>
+                </div>
+                <div class="chat-messages">
+                    <div class="message-date">2023年6月15日 星期四</div>
+                    <div class="message received">
+                        <div class="avatar">
+                            <img src="./images/avatar1.jpg" alt="头像">
+                        </div>
+                        <div class="message-content">你好，最近怎么样？</div>
+                    </div>
+                    <div class="message sent">
+                        <div class="message-content">挺好的，你呢？</div>
+                    </div>
+                    <div class="message received">
+                        <div class="avatar">
+                            <img src="./images/avatar1.jpg" alt="头像">
+                        </div>
+                        <div class="message-content">我也不错，周末有空一起吃饭吗？</div>
+                    </div>
+                    <div class="message sent">
+                        <div class="message-content">好啊，周六中午怎么样？</div>
+                    </div>
+                    <div class="message received">
+                        <div class="avatar">
+                            <img src="./images/avatar1.jpg" alt="头像">
+                        </div>
+                        <div class="message-content">可以，到时候我们再约地点。</div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <div class="input-buttons">
+                        <span class="voice-button"><i class="icon-microphone"></i></span>
+                    </div>
+                    <div class="text-input">
+                        <input type="text" placeholder="发送消息">
+                    </div>
+                    <div class="input-buttons">
+                        <span class="emoji-button"><i class="icon-smile"></i></span>
+                        <span class="more-button"><i class="icon-plus"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部导航栏 -->
+        <div class="tab-bar">
+            <div class="tab-item active" data-page="chat-list-page">
+                <i class="icon-chat"></i>
+                <span>微信</span>
+            </div>
+            <div class="tab-item" data-page="contacts-page">
+                <i class="icon-user-plus"></i>
+                <span>通讯录</span>
+            </div>
+            <div class="tab-item" data-page="discover-page">
+                <i class="fa fa-compass"></i>
+                <span>发现</span>
+            </div>
+            <div class="tab-item" data-page="me-page">
+                <i class="fa fa-user"></i>
+                <span>我</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
