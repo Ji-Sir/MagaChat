@@ -818,3 +818,43 @@ body {
         width: 100%;
     }
 }
+
+.emoji-panel {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    max-width: 300px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.emoji-panel span {
+    cursor: pointer;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.emoji-panel span:hover {
+    background: #f0f0f0;
+    border-radius: 3px;
+}
+
+.back-button {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    padding: 10px;
+}
+
+.back-button i {
+    font-size: 24px;
+    color: #fff;
+}

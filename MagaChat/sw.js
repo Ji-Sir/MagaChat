@@ -69,9 +69,8 @@ self.addEventListener('activate', event => {
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
+          // 强制清除所有缓存
+          return caches.delete(cacheName);
         })
       );
     })

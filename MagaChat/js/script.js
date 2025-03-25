@@ -1,5 +1,4 @@
-// 页面加载完成后执行
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
     // 底部导航切换
     const tabItems = document.querySelectorAll('.tab-item');
     const pages = document.querySelectorAll('.page');
@@ -125,10 +124,34 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // 表情按钮点击事件
-    const emojis = ['😊', '😂', '🤔', '👍', '❤️', '🎉'];
+    const emojis = ['😊', '😂', '🤔', '👍', '❤️', '🎉', '😄', '🥰', '😎', '🤗', '😋', '😇', '🤩', '😘', '😍'];
+    const emojiPanel = document.createElement('div');
+    emojiPanel.className = 'emoji-panel';
+    emojiPanel.style.display = 'none';
+    
+    // 创建表情面板
+    emojis.forEach(emoji => {
+        const emojiSpan = document.createElement('span');
+        emojiSpan.textContent = emoji;
+        emojiSpan.addEventListener('click', () => {
+            sendMessage(emoji, 'emoji');
+            emojiPanel.style.display = 'none';
+        });
+        emojiPanel.appendChild(emojiSpan);
+    });
+    
+    // 将表情面板添加到聊天界面
+    document.querySelector('.chat-input').appendChild(emojiPanel);
+    
     emojiButton.addEventListener('click', function() {
-        const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-        sendMessage(emoji, 'emoji');
+        emojiPanel.style.display = emojiPanel.style.display === 'none' ? 'flex' : 'none';
+    });
+
+    // 点击其他地方关闭表情面板
+    document.addEventListener('click', function(e) {
+        if (!emojiPanel.contains(e.target) && !emojiButton.contains(e.target)) {
+            emojiPanel.style.display = 'none';
+        }
     });
     
     // 更多功能按钮点击事件（模拟发送图片）
@@ -147,5 +170,86 @@ document.addEventListener('DOMContentLoaded', function() {
     voiceButton.addEventListener('click', function() {
         alert('按住说话功能正在开发中...');
     });
+    
+    // 更新所有 my-avatar 图片
+    const myAvatars = document.querySelectorAll('img[src*="my-avatar.jpg"]');
+    myAvatars.forEach(img => {
+        img.src = `${img.src}?v=${new Date().getTime()}`;
+    });
+    
+    // 获取"我"页面的头像和用户名元素
+    const meProfileAvatar = document.querySelector("#me-page .me-profile .avatar");
+    const meProfileName = document.querySelector("#me-page .profile-info .name");
+    
+    // 头像点击事件
+    if (meProfileAvatar) {
+        meProfileAvatar.addEventListener("click", function() {
+            const fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.accept = "image/*";
+            fileInput.style.display = "none";
+            document.body.appendChild(fileInput);
+
+            fileInput.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        // 更新所有使用 my-avatar.jpg 的图片
+                        const allMyAvatars = document.querySelectorAll('img[src*="my-avatar.jpg"]');
+                        allMyAvatars.forEach(img => {
+                            img.src = e.target.result;
+                        });
+                        
+                        // 存储到 localStorage 中
+                        localStorage.setItem('userAvatar', e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+                document.body.removeChild(fileInput);
+            };
+            
+            fileInput.click();
+        });
+    }
+
+    // 用户名点击事件
+    if (meProfileName) {
+        meProfileName.addEventListener("click", function() {
+            const currentName = this.textContent;
+            const newName = prompt("请输入新的微信名称：", currentName);
+            
+            if (newName && newName.trim() !== "") {
+                // 更新显示的名称
+                this.textContent = newName.trim();
+                
+                // 存储到 localStorage 中
+                localStorage.setItem('userName', newName.trim());
+                
+                // 更新所有显示用户名的地方
+                const allUserNames = document.querySelectorAll('.name:not(.contact-item .name)');
+                allUserNames.forEach(nameElement => {
+                    nameElement.textContent = newName.trim();
+                });
+            }
+        });
+    }
+
+    // 页面加载时恢复保存的头像和用户名
+    const savedAvatar = localStorage.getItem('userAvatar');
+    const savedName = localStorage.getItem('userName');
+
+    if (savedAvatar) {
+        const allMyAvatars = document.querySelectorAll('img[src*="my-avatar.jpg"]');
+        allMyAvatars.forEach(img => {
+            img.src = savedAvatar;
+        });
+    }
+
+    if (savedName) {
+        const allUserNames = document.querySelectorAll('.name:not(.contact-item .name)');
+        allUserNames.forEach(nameElement => {
+            nameElement.textContent = savedName;
+        });
+    }
 });
-console.log('微信克隆界面已加载完成');

@@ -3,14 +3,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // 获取DOM元素
   const momentsList = document.querySelector(".moments-list");
   const cameraButton = document.querySelector(".header-camera");
-  const backButton = document.querySelector(".header-back");
 
   // 初始化虚拟用户管理器
   const userManager = new VirtualUserManager();
 
-  // 返回按钮点击事件
-  backButton.addEventListener("click", function () {
-    window.location.href = "index.html";
+  // 添加返回按钮事件
+  const backButton = document.querySelector('.back-button');
+  backButton.addEventListener('click', function() {
+      window.location.href = 'index.html';
   });
 
   // 相机按钮点击事件（跳转到发布页面）
@@ -259,4 +259,44 @@ document.addEventListener("DOMContentLoaded", function () {
   createMomentPost(text.trim(), null, likeSettings);
 
   createMomentPost(text.trim(), null, likeSettings);
+
+  // 获取朋友圈页面的头像元素
+  const momentAvatar = document.querySelector(".moment-user .avatar");
+  
+  // 添加头像点击事件
+  momentAvatar.addEventListener("click", function() {
+      const fileInput = document.createElement("input");
+      fileInput.type = "file";
+      fileInput.accept = "image/*";
+      fileInput.style.display = "none";
+      
+      fileInput.onchange = function(e) {
+          const file = e.target.files[0];
+          if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                  // 更新所有使用 my-avatar.jpg 的图片
+                  const allMyAvatars = document.querySelectorAll('img[src*="my-avatar.jpg"]');
+                  allMyAvatars.forEach(img => {
+                      img.src = e.target.result;
+                  });
+                  
+                  // 存储到 localStorage 中以便下次加载
+                  localStorage.setItem('userAvatar', e.target.result);
+              };
+              reader.readAsDataURL(file);
+          }
+      };
+      
+      fileInput.click();
+  });
+  
+  // 页面加载时检查是否有保存的头像
+  const savedAvatar = localStorage.getItem('userAvatar');
+  if (savedAvatar) {
+      const allMyAvatars = document.querySelectorAll('img[src*="my-avatar.jpg"]');
+      allMyAvatars.forEach(img => {
+          img.src = savedAvatar;
+      });
+  }
 });
