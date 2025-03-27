@@ -2,27 +2,26 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Removed user-scalable=no, maximum-scale=1.0 for accessibility -->
     <title>微信</title>
     <link rel="manifest" href="./manifest.json" />
-    <meta name="theme-color" content="#07c160" />
+    <meta name="theme-color" content="#ededed" />
     <link rel="apple-touch-icon" href="./images/icons/app-icon-192.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-title" content="微信" />
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/icons.css" />
+    <!-- Removed Font Awesome link -->
   </head>
   <body>
     <div class="container">
       <!-- 主内容区域 -->
       <div class="main-content">
         <!-- 聊天列表页面 -->
-        <div class="page" id="chat-list-page">
-          <div class="header">
+        <div class="page active-page" id="chat-list-page">
+          <div class="header std-header">
             <div class="header-left"></div>
             <h2 class="header-title">微信</h2>
             <div class="header-icons">
@@ -30,9 +29,14 @@
               <span class="icon add-icon"><i class="icon-plus"></i></span>
             </div>
           </div>
-          <div class="chat-list">
+          <div class="chat-list content-scrollable">
             <!-- 聊天列表项 -->
-            <div class="chat-item" data-id="1">
+            <div
+              class="chat-item"
+              data-id="1"
+              data-name="张三"
+              data-avatar="./images/avatar1.jpg"
+            >
               <div class="avatar">
                 <img src="./images/avatar1.jpg" alt="头像" />
               </div>
@@ -47,7 +51,12 @@
                 </div>
               </div>
             </div>
-            <div class="chat-item" data-id="2">
+            <div
+              class="chat-item"
+              data-id="2"
+              data-name="李四"
+              data-avatar="./images/avatar2.jpg"
+            >
               <div class="avatar">
                 <img src="./images/avatar2.jpg" alt="头像" />
               </div>
@@ -62,7 +71,12 @@
                 </div>
               </div>
             </div>
-            <div class="chat-item" data-id="3">
+            <div
+              class="chat-item"
+              data-id="3"
+              data-name="微信团队"
+              data-avatar="./images/avatar3.jpg"
+            >
               <div class="avatar">
                 <img src="./images/avatar3.jpg" alt="头像" />
               </div>
@@ -76,44 +90,30 @@
                 </div>
               </div>
             </div>
+            <!-- More chat items can be added here -->
           </div>
         </div>
-
         <!-- 联系人页面 -->
-        <div class="page" id="contacts-page" style="display: none">
-          <div class="header">
-            <h2>通讯录</h2>
+        <div class="page" id="contacts-page">
+          <div class="header std-header">
+            <div class="header-left"></div>
+            <h2 class="header-title">通讯录</h2>
             <div class="header-icons">
               <span class="icon add-contact-icon"
                 ><i class="icon-user-plus"></i
               ></span>
             </div>
           </div>
-          <div class="contacts-list">
+          <div class="contacts-list content-scrollable">
             <!-- 索引栏 -->
             <div class="index-bar">
-              <span>A</span>
-              <span>B</span>
-              <span>C</span>
-              <span>D</span>
-              <span>F</span>
-              <span>G</span>
-              <span>H</span>
-              <span>J</span>
-              <span>K</span>
-              <span>L</span>
-              <span>M</span>
-              <span>N</span>
-              <span>P</span>
-              <span>Q</span>
-              <span>R</span>
-              <span>S</span>
-              <span>T</span>
-              <span>W</span>
-              <span>X</span>
-              <span>Y</span>
-              <span>Z</span>
-              <span>#</span>
+              <!-- Letters A-Z, # -->
+              <span>A</span><span>B</span><span>C</span><span>D</span
+              ><span>F</span><span>G</span><span>H</span><span>J</span
+              ><span>K</span><span>L</span><span>M</span><span>N</span
+              ><span>P</span><span>Q</span><span>R</span><span>S</span
+              ><span>T</span><span>W</span><span>X</span><span>Y</span
+              ><span>Z</span><span>#</span>
             </div>
 
             <!-- 联系人列表 -->
@@ -148,126 +148,155 @@
                 <div class="name">宝马4S店</div>
               </div>
             </div>
+            <!-- More contact groups -->
           </div>
         </div>
 
         <!-- 发现页面 -->
-        <div class="page" id="discover-page" style="display: none">
-          <div class="header">
-            <h2>发现</h2>
+        <div class="page" id="discover-page">
+          <div class="header std-header">
+            <div class="header-left"></div>
+            <h2 class="header-title">发现</h2>
+            <div class="header-icons"></div>
           </div>
-          <div class="discover-list">
+          <div class="discover-list content-scrollable">
             <div
               class="discover-item"
               onclick="window.location.href='moments.html'"
             >
               <div class="discover-icon">
-                <i class="fa fa-circle"></i>
+                <i class="icon-discover"></i>
+                <!-- Changed -->
               </div>
               <div class="discover-text">朋友圈</div>
               <div class="discover-arrow">
-                <i class="fa fa-angle-right"></i>
+                <i class="icon-angle-right"></i>
+                <!-- Changed -->
               </div>
             </div>
             <div class="discover-item">
               <div class="discover-icon">
-                <i class="fa fa-video-camera"></i>
+                <i class="icon-camera"></i>
+                <!-- Assuming video is camera related -->
               </div>
               <div class="discover-text">视频号</div>
               <div class="discover-arrow">
-                <i class="fa fa-angle-right"></i>
+                <i class="icon-angle-right"></i>
+                <!-- Changed -->
               </div>
             </div>
             <div class="discover-item">
               <div class="discover-icon">
-                <i class="fa fa-qrcode"></i>
+                <i class="icon-qrcode"></i>
+                <!-- Changed -->
               </div>
               <div class="discover-text">扫一扫</div>
               <div class="discover-arrow">
-                <i class="fa fa-angle-right"></i>
+                <i class="icon-angle-right"></i>
+                <!-- Changed -->
               </div>
             </div>
             <div class="discover-item">
               <div class="discover-icon">
-                <i class="fa fa-gamepad"></i>
+                <i class="icon-infinity"></i>
+                <!-- Kept, assuming it represents games -->
               </div>
               <div class="discover-text">小游戏</div>
               <div class="discover-arrow">
-                <i class="fa fa-angle-right"></i>
+                <i class="icon-angle-right"></i>
+                <!-- Changed -->
               </div>
             </div>
+            <!-- More discover items -->
           </div>
         </div>
 
         <!-- 我的页面 -->
-        <div class="page" id="me-page" style="display: none">
-          <div class="header">
-            <h2>我</h2>
+        <div class="page" id="me-page">
+          <div class="header std-header">
+            <div class="header-left"></div>
+            <h2 class="header-title">我</h2>
             <div class="header-icons">
-              <span class="icon settings-icon"><i class="fa fa-cog"></i></span>
+              <!-- Settings icon removed from here, placed in list -->
             </div>
           </div>
-          <div class="me-content">
+          <div class="me-content content-scrollable">
             <div class="me-profile">
               <div class="avatar">
-                <img src="./images/my-avatar.jpg" alt="我的头像" />
+                <img
+                  src="./images/my-avatar.jpg"
+                  alt="我的头像"
+                  id="me-profile-avatar-img"
+                />
               </div>
               <div class="profile-info">
-                <div class="name">微信用户</div>
+                <div class="name" id="me-profile-name">微信用户</div>
                 <div class="wxid">微信号：wxid_12345</div>
               </div>
               <div class="profile-qrcode">
-                <i class="fa fa-qrcode"></i>
+                <i class="icon-qrcode"></i>
+                <!-- Changed -->
               </div>
               <div class="profile-arrow">
-                <i class="fa fa-angle-right"></i>
+                <i class="icon-angle-right"></i>
+                <!-- Changed -->
               </div>
             </div>
 
             <div class="me-items">
               <div class="me-item">
                 <div class="me-icon">
-                  <i class="fa fa-credit-card"></i>
+                  <i class="icon-pay"></i>
+                  <!-- Changed -->
                 </div>
                 <div class="me-text">支付</div>
                 <div class="me-arrow">
-                  <i class="fa fa-angle-right"></i>
+                  <i class="icon-angle-right"></i>
+                  <!-- Changed -->
                 </div>
               </div>
               <div class="me-item">
                 <div class="me-icon">
-                  <i class="fa fa-star"></i>
+                  <i class="icon-star"></i>
+                  <!-- Changed -->
                 </div>
                 <div class="me-text">收藏</div>
                 <div class="me-arrow">
-                  <i class="fa fa-angle-right"></i>
+                  <i class="icon-angle-right"></i>
+                  <!-- Changed -->
                 </div>
               </div>
               <div class="me-item">
                 <div class="me-icon">
-                  <i class="fa fa-photo"></i>
+                  <i class="icon-image"></i>
+                  <!-- Changed -->
                 </div>
                 <div class="me-text">相册</div>
                 <div class="me-arrow">
-                  <i class="fa fa-angle-right"></i>
+                  <i class="icon-angle-right"></i>
+                  <!-- Changed -->
                 </div>
               </div>
               <div class="me-item">
                 <div class="me-icon">
-                  <i class="fa fa-smile-o"></i>
+                  <i class="icon-emoji"></i>
+                  <!-- Changed -->
                 </div>
                 <div class="me-text">表情</div>
                 <div class="me-arrow">
-                  <i class="fa fa-angle-right"></i>
+                  <i class="icon-angle-right"></i>
+                  <!-- Changed -->
                 </div>
               </div>
               <div class="me-item">
                 <div class="me-icon">
-                  <i class="fa fa-cog"></i>
+                  <i class="icon-settings"></i>
+                  <!-- Changed -->
                 </div>
                 <div class="me-text">设置</div>
                 <div class="me-arrow">
-                  <i class="fa fa-angle-right"></i>
+                  <i class="icon-angle-right"></i>
+                  <!-- Changed -->
                 </div>
               </div>
             </div>
@@ -275,20 +304,23 @@
         </div>
 
         <!-- 聊天详情页面 -->
-        <div class="page" id="chat-detail-page" style="display: none">
-          <div class="header">
+        <div class="page" id="chat-detail-page">
+          <div class="header chat-detail-header">
             <div class="back-button">
-              <i class="fa fa-angle-left"></i>
+              <i class="icon-angle-left"></i>
+              <!-- Changed -->
             </div>
             <h2 class="chat-title">张三</h2>
             <div class="header-icons">
               <span class="icon more-icon"
-                ><i class="fa fa-ellipsis-h"></i
+                ><i class="icon-ellipsis-h"></i
               ></span>
+              <!-- Changed -->
             </div>
           </div>
-          <div class="chat-messages">
+          <div class="chat-messages content-scrollable">
             <div class="message-date">2023年6月15日 星期四</div>
+            <!-- Messages will be dynamically added here -->
             <div class="message received">
               <div class="avatar">
                 <img src="./images/avatar1.jpg" alt="头像" />
@@ -298,32 +330,23 @@
             <div class="message sent">
               <div class="message-content">挺好的，你呢？</div>
             </div>
-            <div class="message received">
-              <div class="avatar">
-                <img src="./images/avatar1.jpg" alt="头像" />
-              </div>
-              <div class="message-content">我也不错，周末有空一起吃饭吗？</div>
-            </div>
-            <div class="message sent">
-              <div class="message-content">好啊，周六中午怎么样？</div>
-            </div>
-            <div class="message received">
-              <div class="avatar">
-                <img src="./images/avatar1.jpg" alt="头像" />
-              </div>
-              <div class="message-content">可以，到时候我们再约地点。</div>
-            </div>
+            <!-- Example initial messages -->
           </div>
           <div class="chat-input-area">
             <div class="input-buttons">
               <span class="voice-button"><i class="icon-microphone"></i></span>
             </div>
             <div class="text-input">
-              <input type="text" placeholder="发送消息" />
+              <input type="text" id="chat-input-field" placeholder="发送消息" />
             </div>
             <div class="input-buttons">
-              <span class="emoji-button"><i class="icon-smile"></i></span>
+              <span class="emoji-button"><i class="icon-emoji"></i></span>
+              <!-- Changed -->
               <span class="more-button"><i class="icon-plus"></i></span>
+            </div>
+            <!-- Emoji Panel (moved here from JS for structure) -->
+            <div class="emoji-panel" style="display: none">
+              <!-- Emojis will be populated by JS -->
             </div>
           </div>
         </div>
@@ -331,33 +354,48 @@
 
       <!-- 底部导航栏 -->
       <div class="tab-bar">
-        <div class="tab-item active" data-page="chat-list-page">
-          <i class="icon-chat"></i>
-          <span>微信</span>
+        <div class="tab-item-container">
+          <div class="tab-item active" data-page="chat-list-page">
+            <i class="icon-chat"></i>
+            <span>微信</span>
+          </div>
         </div>
-        <div class="tab-item" data-page="contacts-page">
-          <i class="icon-user-plus"></i>
-          <span>通讯录</span>
+        <div class="tab-item-container">
+          <div class="tab-item" data-page="contacts-page">
+            <i class="icon-user-plus"></i>
+            <!-- Assuming this represents contacts -->
+            <span>通讯录</span>
+          </div>
         </div>
-        <div class="tab-item" data-page="discover-page">
-          <i class="fa fa-compass"></i>
-          <span>发现</span>
+        <div class="tab-item-container">
+          <div class="tab-item" data-page="discover-page">
+            <i class="icon-discover"></i>
+            <!-- Changed -->
+            <span>发现</span>
+          </div>
         </div>
-        <div class="tab-item" data-page="me-page">
-          <i class="fa fa-user"></i>
-          <span>我</span>
+        <div class="tab-item-container">
+          <div class="tab-item" data-page="me-page">
+            <i class="icon-me"></i>
+            <!-- Changed -->
+            <span>我</span>
+          </div>
         </div>
       </div>
     </div>
 
     <script src="./js/script.js"></script>
     <script>
+      // Service Worker registration
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
             .register("./sw.js")
             .then((registration) => {
-              console.log("ServiceWorker registration successful");
+              console.log(
+                "ServiceWorker registration successful with scope: ",
+                registration.scope
+              );
             })
             .catch((err) => {
               console.log("ServiceWorker registration failed: ", err);

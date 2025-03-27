@@ -1,11 +1,11 @@
 {
-  "name": "朋友圈模拟器",
-  "short_name": "朋友圈",
-  "description": "朋友圈模拟应用",
+  "name": "微信模拟器",
+  "short_name": "微信",
+  "description": "一个简单的微信界面模拟应用",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#F5F5F5",
-  "theme_color": "#07c160",
+  "theme_color": "#ededed",
   "icons": [
     {
       "src": "./images/icons/app-icon-192.png",

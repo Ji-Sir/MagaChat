@@ -1,22 +1,35 @@
+// Import the VirtualUserManager class
+import VirtualUserManager from "./virtual-users.js";
+
 // 页面加载完成后执行
 document.addEventListener("DOMContentLoaded", function () {
   // 获取DOM元素
   const momentsList = document.querySelector(".moments-list");
   const cameraButton = document.querySelector(".header-camera");
+  const backButton = document.querySelector(".header-back"); // Corrected selector
 
-  // 初始化虚拟用户管理器
+  // 初始化虚拟用户管理器 (though primarily used in post-moment, might be needed for display)
   const userManager = new VirtualUserManager();
 
-  // 添加返回按钮事件
-  const backButton = document.querySelector('.back-button');
-  backButton.addEventListener('click', function() {
-      window.location.href = 'index.html';
-  });
+  // 添加返回按钮事件 (返回到 index.html)
+  if (backButton) {
+    backButton.addEventListener("click", function () {
+      window.location.href = "index.html";
+    });
+  } else {
+    console.error("Back button not found");
+  }
 
-  // 相机按钮点击事件（跳转到发布页面）
-  cameraButton.addEventListener("click", function () {
-    window.location.href = "post-moment.html";
-  });
+  // 相机按钮点击事件 (跳转到发布页面)
+  if (cameraButton) {
+    cameraButton.addEventListener("click", function () {
+      window.location.href = "post-moment.html";
+    });
+  } else {
+    console.error("Camera button not found");
+  }
+
+  // --- Moment Rendering Logic ---
 
   // 格式化时间
   function formatTime(timestamp) {
@@ -30,25 +43,43 @@ document.addEventListener("DOMContentLoaded", function () {
       return "刚刚";
     } else if (diff < hour) {
       return Math.floor(diff / minute) + "分钟前";
-    } else if (diff < day) {
+    } else if (diff < 24 * hour) {
+      // Show hours within the same day
       return Math.floor(diff / hour) + "小时前";
+    } else if (diff < 48 * hour) {
+      // Show "昨天"
+      const time = new Date(timestamp);
+      return `昨天 ${time.getHours().toString().padStart(2, "0")}:${time
+        .getMinutes()
+        .toString()
+        .padStart(2, "0")}`;
     } else {
+      // Show MM-DD HH:MM for older posts
       const date = new Date(timestamp);
-      return `${date.getMonth() + 1}月${date.getDate()}日`;
+      return `${(date.getMonth() + 1).toString().padStart(2, "0")}-${date
+        .getDate()
+        .toString()
+        .padStart(2, "0")} ${date.getHours().toString().padStart(2, "0")}:${date
+        .getMinutes()
+        .toString()
+        .padStart(2, "0")}`;
     }
   }
 
-  // 渲染点赞用户列表
+  // 渲染点赞用户列表 (Names only)
   function renderLikeUsers(likes) {
-    if (!likes || !likes.users || likes.users.length === 0) return "";
+    if (!likes || !likes.users || likes.users.length === 0) {
+      return ""; // Return empty string if no likes
+    }
 
     const userNames = likes.users.map((user) => user.name).join("、");
+    // Ensure the container is visible if there are likes
     return `
-            <div class="moment-likes">
-                <i class="icon-heart"></i>
-                <div class="like-users">${userNames}</div>
-            </div>
-        `;
+      <div class="moment-likes" style="display: flex;">
+          <i class="icon-heart"></i>
+          <div class="like-users">${userNames}</div>
+      </div>
+  `;
   }
 
   // 渲染图片网格
@@ -57,12 +88,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const imageItems = images
       .map(
-        (image) =>
-          `<div class="image-item"><img src="${image}" alt="动态图片"></div>`
+        (imageSrc) =>
+          `<div class="image-item"><img src="${imageSrc}" alt="动态图片"></div>`
       )
       .join("");
 
-    return `<div class="images image-grid-${images.length}">${imageItems}</div>`;
+    // Determine grid class based on image count for potential styling
+    let gridClass = "image-grid-";
+    if (images.length === 1) gridClass += "1";
+    else if (images.length === 2 || images.length === 4)
+      gridClass += "2col"; // e.g., 2 columns
+    else gridClass += "3col"; // Default to 3 columns
+
+    return `<div class="images ${gridClass}">${imageItems}</div>`;
+  }
+
+  // 获取当前用户名和头像 (从 localStorage 或默认值)
+  function getCurrentUserInfo() {
+    return {
+      name: localStorage.getItem("userName") || "微信用户",
+      avatar: localStorage.getItem("userAvatar") || "./images/my-avatar.jpg",
+    };
   }
 
   // 渲染单条动态
@@ -71,65 +117,123 @@ document.addEventListener("DOMContentLoaded", function () {
     momentElement.className = "moment-item";
     momentElement.dataset.id = moment.id;
 
+    const currentUser = getCurrentUserInfo();
+
+    // Determine if the current user has liked this moment
+    // For this demo, we assume 'isLiked' property is not reliably stored across sessions.
+    // We'll use a simple check if the current user's name is in the like list.
+    // A more robust solution would involve user IDs.
+    let isLikedByCurrentUser =
+      moment.likes &&
+      moment.likes.users &&
+      moment.likes.users.some((user) => user.name === currentUser.name);
+
     momentElement.innerHTML = `
-            <div class="moment-user">
-                <div class="avatar">
-                    <img src="./images/my-avatar.jpg" alt="头像">
-                </div>
-                <div class="name">微信用户</div>
-            </div>
-            <div class="moment-content">
-                <div class="text">${moment.text}</div>
-                ${renderImageGrid(moment.images)}
-            </div>
-            <div class="moment-info">
-                <div class="time">${formatTime(moment.timestamp)}</div>
-                <div class="actions">
-                    <i class="icon-heart${
-                      moment.isLiked ? "" : "-outline"
-                    }"></i>
-                </div>
-            </div>
-            ${renderLikeUsers(moment.likes)}
-        `;
+      <div class="moment-user">
+          <div class="avatar">
+              <img src="${currentUser.avatar}" alt="头像">
+          </div>
+          <div class="name">${currentUser.name}</div>
+      </div>
+      <div class="moment-content">
+          <div class="text">${moment.text || ""}</div>
+          ${renderImageGrid(moment.images)}
+      </div>
+      <div class="moment-info">
+          <div class="time">${formatTime(moment.timestamp)}</div>
+          <div class="actions">
+              <i class="icon-heart${
+                isLikedByCurrentUser ? "" : "-outline"
+              } like-button"></i>
+              <i class="icon-comment comment-button"></i>
+          </div>
+      </div>
+      ${renderLikeUsers(moment.likes)}
+      <div class="moment-comments">
+          <!-- Comments could be rendered here if implemented -->
+      </div>
+  `;
 
-    // 绑定点赞事件
-    const likeButton = momentElement.querySelector(".actions i");
+    // --- Event Listeners for the rendered moment ---
+    const likeButton = momentElement.querySelector(".like-button");
+    const commentButton = momentElement.querySelector(".comment-button");
+    const likesContainer = momentElement.querySelector(".moment-likes"); // Might be null initially
+
+    // Like Button Click
     likeButton.addEventListener("click", () => {
-      moment.isLiked = !moment.isLiked;
-      if (moment.isLiked) {
-        // 从虚拟用户池中随机选择一个用户点赞
-        const availableUsers = userManager.users.filter(
-          (user) => !moment.likes.users.some((u) => u.id === user.id)
-        );
-        if (availableUsers.length > 0) {
-          const randomUser =
-            availableUsers[Math.floor(Math.random() * availableUsers.length)];
-          moment.likes.users.push(randomUser);
-          moment.likes.count++;
-        }
-      } else {
-        // 移除最后一个点赞用户
-        if (moment.likes.users.length > 0) {
-          moment.likes.users.pop();
-          moment.likes.count--;
-        }
-      }
-
-      // 更新存储
       const moments = JSON.parse(localStorage.getItem("moments") || "[]");
-      const index = moments.findIndex((m) => m.id === moment.id);
-      if (index !== -1) {
-        moments[index] = moment;
-        localStorage.setItem("moments", JSON.stringify(moments));
+      const momentIndex = moments.findIndex((m) => m.id === moment.id);
+      if (momentIndex === -1) return; // Moment not found
+
+      let targetMoment = moments[momentIndex];
+
+      // Initialize likes if it doesn't exist
+      if (!targetMoment.likes) {
+        targetMoment.likes = { count: 0, users: [] };
+      }
+      if (!targetMoment.likes.users) {
+        targetMoment.likes.users = [];
       }
 
-      // 更新UI
-      likeButton.className = `icon-heart${moment.isLiked ? "" : "-outline"}`;
-      const likesContainer = momentElement.querySelector(".moment-likes");
-      if (likesContainer) {
-        likesContainer.innerHTML = renderLikeUsers(moment.likes);
+      const currentUserInfo = getCurrentUserInfo();
+      const existingLikeIndex = targetMoment.likes.users.findIndex(
+        (user) => user.name === currentUserInfo.name
+      ); // Simple name check
+
+      if (existingLikeIndex !== -1) {
+        // User already liked -> Unlike
+        targetMoment.likes.users.splice(existingLikeIndex, 1);
+        targetMoment.likes.count = Math.max(0, targetMoment.likes.count - 1);
+        likeButton.classList.remove("icon-heart");
+        likeButton.classList.add("icon-heart-outline");
+        isLikedByCurrentUser = false;
+      } else {
+        // User hasn't liked -> Like
+        targetMoment.likes.users.push({
+          name: currentUserInfo.name /*, id: userId */,
+        }); // Add user info
+        targetMoment.likes.count++;
+        likeButton.classList.remove("icon-heart-outline");
+        likeButton.classList.add("icon-heart");
+        isLikedByCurrentUser = true;
       }
+
+      // Update localStorage
+      localStorage.setItem("moments", JSON.stringify(moments));
+
+      // Update UI for likes display
+      const likesSectionHTML = renderLikeUsers(targetMoment.likes);
+      const existingLikesContainer =
+        momentElement.querySelector(".moment-likes");
+      if (existingLikesContainer) {
+        if (likesSectionHTML) {
+          existingLikesContainer.innerHTML = likesSectionHTML.includes("</i>")
+            ? likesSectionHTML.substring(likesSectionHTML.indexOf("</i>") + 4)
+            : ""; // Update content after icon
+          existingLikesContainer.style.display = "flex"; // Ensure visibility
+        } else {
+          existingLikesContainer.style.display = "none"; // Hide if no likes
+          existingLikesContainer.innerHTML =
+            '<i class="icon-heart"></i><div class="like-users"></div>'; // Reset content
+        }
+      } else if (likesSectionHTML) {
+        // If the container didn't exist, create and insert it
+        const newLikesContainer = document.createElement("div");
+        newLikesContainer.className = "moment-likes";
+        newLikesContainer.innerHTML = likesSectionHTML;
+        // Insert after moment-info
+        momentElement
+          .querySelector(".moment-info")
+          .insertAdjacentElement("afterend", newLikesContainer);
+      }
+    });
+
+    // Comment Button Click (Placeholder)
+    commentButton.addEventListener("click", () => {
+      // Placeholder: Implement comment functionality later
+      // e.g., show an input field, handle submission
+      alert("评论功能待实现！");
+      console.log("Comment button clicked for moment:", moment.id);
     });
 
     return momentElement;
@@ -137,8 +241,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 加载并渲染所有动态
   function loadMoments() {
+    if (!momentsList) {
+      console.error("Moments list container not found");
+      return;
+    }
     const moments = JSON.parse(localStorage.getItem("moments") || "[]");
-    momentsList.innerHTML = "";
+    momentsList.innerHTML = ""; // Clear existing moments
+    // Sort moments by timestamp, newest first
+    moments.sort((a, b) => b.timestamp - a.timestamp);
     moments.forEach((moment) => {
       momentsList.appendChild(renderMoment(moment));
     });
@@ -146,157 +256,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 初始加载
   loadMoments();
-
-  // 绑定朋友圈交互事件
-  function bindMomentEvents(momentItem) {
-    const heartIcon = momentItem.querySelector(".fa-heart-o");
-    const commentIcon = momentItem.querySelector(".fa-comment-o");
-    const likesSection = momentItem.querySelector(".moment-likes");
-    const commentsSection = momentItem.querySelector(".moment-comments");
-
-    // 点赞功能
-    heartIcon.addEventListener("click", function () {
-      this.classList.toggle("fa-heart-o");
-      this.classList.toggle("fa-heart");
-      this.style.color = this.classList.contains("fa-heart")
-        ? "#f43530"
-        : "#666";
-
-      if (this.classList.contains("fa-heart")) {
-        likesSection.style.display = "flex";
-        // 添加当前用户头像到点赞列表
-        const userAvatar = document.createElement("img");
-        userAvatar.src = "./images/my-avatar.jpg";
-        userAvatar.alt = "头像";
-        likesSection.querySelector(".like-users").appendChild(userAvatar);
-      } else {
-        // 移除当前用户头像
-        const avatars = [...likesSection.querySelectorAll("img")];
-        if (avatars.length > 0) {
-          avatars[avatars.length - 1].remove();
-          if (avatars.length === 1) {
-            likesSection.style.display = "none";
-          }
-        }
-      }
-    });
-
-    // 评论功能
-    commentIcon.addEventListener("click", function () {
-      const commentText = prompt("请输入评论内容：");
-      if (commentText && commentText.trim() !== "") {
-        const commentDiv = document.createElement("div");
-        commentDiv.className = "comment";
-        commentDiv.innerHTML = `
-                    <span class="comment-user">微信用户</span>：${commentText.trim()}
-                `;
-        commentsSection.appendChild(commentDiv);
-      }
-    });
-  }
-
-  // 为现有的朋友圈项绑定事件
-  document.querySelectorAll(".moment-item").forEach(bindMomentEvents);
-
-  // 生成点赞用户头像和名称
-  function generateLikeUsers(settings) {
-    const avatars = [];
-    const defaultAvatars = [
-      "avatar1.jpg",
-      "avatar2.jpg",
-      "avatar3.jpg",
-      "avatar4.jpg",
-      "avatar5.jpg",
-    ];
-    const defaultNames = ["张三", "李四", "王五", "赵六", "孙七"];
-
-    for (let i = 0; i < settings.count; i++) {
-      const avatarIndex = i % defaultAvatars.length;
-      avatars.push(`
-                <div class="like-user" title="${
-                  settings.names ? settings.names[i] : defaultNames[avatarIndex]
-                }">
-                    <img src="./images/${
-                      settings.avatars
-                        ? settings.avatars[i]
-                        : defaultAvatars[avatarIndex]
-                    }" alt="头像">
-                </div>
-            `);
-    }
-    return avatars.join("");
-  }
-
-  // 发布新动态按钮点击事件
-  cameraButton.addEventListener("click", function () {
-    const text = prompt("请输入动态内容：");
-    if (text && text.trim() !== "") {
-      const likeCount = parseInt(prompt("请设置点赞数量（0-10）：") || "0");
-      let likeSettings = null;
-
-      if (likeCount > 0 && likeCount <= 10) {
-        const names = [];
-        const avatars = [];
-
-        for (let i = 0; i < likeCount; i++) {
-          const name =
-            prompt(`请输入第${i + 1}个点赞者的名称：`) || `用户${i + 1}`;
-          names.push(name);
-          avatars.push(`avatar${(i % 7) + 1}.jpg`);
-        }
-        createMomentPost(text.trim(), null, likeSettings);
-      }
-    }
-
-    likeSettings = {
-      count: likeCount,
-      names: names,
-      avatars: avatars,
-    };
-    createMomentPost(text.trim(), null, likeSettings);
-  });
-
-  createMomentPost(text.trim(), null, likeSettings);
-
-  createMomentPost(text.trim(), null, likeSettings);
-
-  // 获取朋友圈页面的头像元素
-  const momentAvatar = document.querySelector(".moment-user .avatar");
-  
-  // 添加头像点击事件
-  momentAvatar.addEventListener("click", function() {
-      const fileInput = document.createElement("input");
-      fileInput.type = "file";
-      fileInput.accept = "image/*";
-      fileInput.style.display = "none";
-      
-      fileInput.onchange = function(e) {
-          const file = e.target.files[0];
-          if (file) {
-              const reader = new FileReader();
-              reader.onload = function(e) {
-                  // 更新所有使用 my-avatar.jpg 的图片
-                  const allMyAvatars = document.querySelectorAll('img[src*="my-avatar.jpg"]');
-                  allMyAvatars.forEach(img => {
-                      img.src = e.target.result;
-                  });
-                  
-                  // 存储到 localStorage 中以便下次加载
-                  localStorage.setItem('userAvatar', e.target.result);
-              };
-              reader.readAsDataURL(file);
-          }
-      };
-      
-      fileInput.click();
-  });
-  
-  // 页面加载时检查是否有保存的头像
-  const savedAvatar = localStorage.getItem('userAvatar');
-  if (savedAvatar) {
-      const allMyAvatars = document.querySelectorAll('img[src*="my-avatar.jpg"]');
-      allMyAvatars.forEach(img => {
-          img.src = savedAvatar;
-      });
-  }
 });

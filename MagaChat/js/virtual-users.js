@@ -1,79 +1,146 @@
 // 虚拟用户管理模块
 class VirtualUserManager {
-    constructor() {
-        this.users = this.loadUsers();
-        this.defaultAvatars = [
-            'avatar1.jpg', 'avatar2.jpg', 'avatar3.jpg',
-            'avatar4.jpg', 'avatar5.jpg', 'avatar6.jpg', 'avatar7.jpg'
-        ];
-        this.nameAdjectives = ['快乐的', '可爱的', '聪明的', '温柔的', '活泼的', '优雅的', '帅气的'];
-        this.nameNouns = ['小猫', '小狗', '小兔', '小熊', '小鸟', '小鱼', '小象'];
-    }
+  constructor() {
+    this.storageKey = "virtualUsers_v1"; // Key for localStorage
+    this.users = this._loadUsers();
+    this.defaultAvatars = [
+      "avatar1.jpg",
+      "avatar2.jpg",
+      "avatar3.jpg",
+      "avatar4.jpg",
+      "avatar5.jpg",
+      "avatar6.jpg",
+      "avatar7.jpg",
+    ];
+    // Expanded names for more variety
+    this.namePrefixes = [
+      "快乐的",
+      "可爱的",
+      "聪明的",
+      "温柔的",
+      "活泼的",
+      "优雅的",
+      "帅气的",
+      "神秘的",
+      "勇敢的",
+      "安静的",
+    ];
+    this.nameSuffixes = [
+      "小猫",
+      "小狗",
+      "兔子",
+      "熊猫",
+      "海豚",
+      "小鸟",
+      "狐狸",
+      "松鼠",
+      "考拉",
+      "小象",
+    ];
+  }
 
-    // 从 localStorage 加载用户数据
-    loadUsers() {
-        const savedUsers = localStorage.getItem('virtualUsers');
-        return savedUsers ? JSON.parse(savedUsers) : [];
+  // 从 localStorage 加载用户数据 (Private helper)
+  _loadUsers() {
+    try {
+      const savedUsers = localStorage.getItem(this.storageKey);
+      return savedUsers ? JSON.parse(savedUsers) : [];
+    } catch (error) {
+      console.error("Error loading virtual users from localStorage:", error);
+      return []; // Return empty array on error
     }
+  }
 
-    // 保存用户数据到 localStorage
-    saveUsers() {
-        localStorage.setItem('virtualUsers', JSON.stringify(this.users));
+  // 保存用户数据到 localStorage (Private helper)
+  _saveUsers() {
+    try {
+      localStorage.setItem(this.storageKey, JSON.stringify(this.users));
+    } catch (error) {
+      console.error("Error saving virtual users to localStorage:", error);
     }
+  }
 
-    // 生成随机用户名
-    generateRandomName() {
-        const adjective = this.nameAdjectives[Math.floor(Math.random() * this.nameAdjectives.length)];
-        const noun = this.nameNouns[Math.floor(Math.random() * this.nameNouns.length)];
-        return adjective + noun;
+  // 生成随机用户名
+  _generateRandomName() {
+    const prefix =
+      this.namePrefixes[Math.floor(Math.random() * this.namePrefixes.length)];
+    const suffix =
+      this.nameSuffixes[Math.floor(Math.random() * this.nameSuffixes.length)];
+    // Avoid duplicate names if possible (simple check)
+    let potentialName = prefix + suffix;
+    let attempts = 0;
+    while (
+      this.users.some((user) => user.name === potentialName) &&
+      attempts < 10
+    ) {
+      potentialName = prefix + suffix + (attempts > 0 ? attempts + 1 : "");
+      attempts++;
     }
+    return potentialName;
+  }
 
-    // 添加新用户
-    addUser(name = null, avatarIndex = null) {
-        const user = {
-            id: 'user_' + Date.now(),
-            name: name || this.generateRandomName(),
-            avatar: this.defaultAvatars[avatarIndex || Math.floor(Math.random() * this.defaultAvatars.length)],
-            isActive: true
-        };
-        this.users.push(user);
-        this.saveUsers();
-        return user;
-    }
+  // 添加新用户
+  addUser() {
+    const newUser = {
+      id: "user_" + Date.now() + "_" + Math.random().toString(36).substr(2, 5), // More unique ID
+      name: this._generateRandomName(),
+      avatar:
+        this.defaultAvatars[
+          Math.floor(Math.random() * this.defaultAvatars.length)
+        ],
+      isActive: true, // Default to active
+    };
+    this.users.push(newUser);
+    this._saveUsers();
+    console.log("Added virtual user:", newUser);
+    return newUser;
+  }
 
-    // 删除用户
-    removeUser(userId) {
-        this.users = this.users.filter(user => user.id !== userId);
-        this.saveUsers();
+  // 删除用户
+  removeUser(userId) {
+    const initialLength = this.users.length;
+    this.users = this.users.filter((user) => user.id !== userId);
+    if (this.users.length < initialLength) {
+      this._saveUsers();
+      console.log("Removed virtual user:", userId);
+      return true;
     }
+    return false;
+  }
 
-    // 更新用户状态
-    updateUserStatus(userId, isActive) {
-        const user = this.users.find(user => user.id === userId);
-        if (user) {
-            user.isActive = isActive;
-            this.saveUsers();
-        }
+  // 更新用户状态 (isActive)
+  updateUserStatus(userId, isActive) {
+    const user = this.users.find((user) => user.id === userId);
+    if (user) {
+      user.isActive = !!isActive; // Ensure boolean
+      this._saveUsers();
+      console.log("Updated virtual user status:", userId, user.isActive);
+      return true;
     }
+    return false;
+  }
 
-    // 获取随机活跃用户
-    getRandomActiveUsers(count) {
-        const activeUsers = this.users.filter(user => user.isActive);
-        const shuffled = activeUsers.sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, Math.min(count, shuffled.length));
+  // 获取指定数量的随机【活跃】用户
+  getRandomActiveUsers(count) {
+    const activeUsers = this.users.filter((user) => user.isActive);
+    // Shuffle the active users array (Fisher-Yates shuffle)
+    for (let i = activeUsers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [activeUsers[i], activeUsers[j]] = [activeUsers[j], activeUsers[i]];
     }
+    // Return the requested number of users, or all active users if count is larger
+    return activeUsers.slice(0, Math.min(count, activeUsers.length));
+  }
 
-    // 获取所有用户
-    getAllUsers() {
-        return this.users;
-    }
+  // 获取所有用户
+  getAllUsers() {
+    return [...this.users]; // Return a copy to prevent direct modification
+  }
 
-    // 获取活跃用户数量
-    getActiveUserCount() {
-        return this.users.filter(user => user.isActive).length;
-    }
+  // 获取活跃用户数量
+  getActiveUserCount() {
+    return this.users.filter((user) => user.isActive).length;
+  }
 }
 
-// 导出虚拟用户管理器实例
-const virtualUserManager = new VirtualUserManager();
-export default virtualUserManager;
+// Export the class itself, not an instance, following standard practice.
+export default VirtualUserManager;

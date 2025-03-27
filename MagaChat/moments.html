@@ -1,92 +1,103 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>朋友圈</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/icons.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/icons.css" />
+  </head>
+  <body>
     <div class="container">
-        <div class="moments-page">
-            <!-- 朋友圈顶部 -->
-            <div class="moments-header">
-<<<<<<< HEAD
-                <div class="header">
-                    <div class="back-button">
-                        <i class="fa fa-angle-left"></i>
-                    </div>
-                    <div class="header-camera">
-                        <i class="fa fa-camera"></i>
-                    </div>
-                </div>
-=======
-                <div class="header-back">
-                    <i class="icon-chat-outline"></i>
-                </div>
-                <div class="header-title">朋友圈</div>
->>>>>>> e40a48235330843604c4c2c1e1ca9740e89d4cc1
-                <div class="header-camera">
-                    <i class="icon-camera"></i>
-                </div>
-            </div>
-
-            <!-- 个人封面区域 -->
-            <div class="moments-cover">
-                <div class="cover-image">
-                    <img src="./images/my-avatar.jpg" alt="封面">
-                </div>
-                <div class="user-info">
-                    <div class="name">微信用户</div>
-                    <div class="avatar">
-                        <img src="./images/my-avatar.jpg" alt="头像">
-                    </div>
-                </div>
-            </div>
-
-            <!-- 朋友圈列表 -->
-            <div class="moments-list">
-                <!-- 朋友圈动态项 -->
-                <div class="moment-item">
-                    <div class="moment-user">
-                        <div class="avatar">
-                            <img src="./images/avatar1.jpg" alt="头像">
-                        </div>
-                        <div class="name">张三</div>
-                    </div>
-                    <div class="moment-content">
-                        <div class="text">今天天气真好，出来散步！</div>
-                        <div class="images">
-                            <img src="./images/avatar2.jpg" alt="图片">
-                        </div>
-                    </div>
-                    <div class="moment-info">
-                        <div class="time">10分钟前</div>
-                        <div class="actions">
-                            <i class="fa fa-heart-o"></i>
-                            <i class="fa fa-comment-o"></i>
-                        </div>
-                    </div>
-                    <div class="moment-likes">
-                        <i class="fa fa-heart"></i>
-                        <div class="like-users">
-                            <img src="./images/avatar2.jpg" alt="头像">
-                            <img src="./images/avatar3.jpg" alt="头像">
-                        </div>
-                    </div>
-                    <div class="moment-comments">
-                        <div class="comment">
-                            <span class="comment-user">李四</span>：天气确实不错！
-                        </div>
-                        <div class="comment">
-                            <span class="comment-user">王五</span>：羡慕啊，我还在加班
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="moments-page page active-page">
+        <!-- 朋友圈顶部 -->
+        <div class="moments-header std-header">
+          <!-- Resolved Merge Conflict: Chose this structure -->
+          <div class="header-back">
+            <i class="icon-angle-left"></i>
+            <!-- Changed Icon -->
+          </div>
+          <div class="header-title">朋友圈</div>
+          <div class="header-camera">
+            <i class="icon-camera"></i>
+          </div>
         </div>
+        <!-- 个人封面区域 -->
+        <div class="moments-cover">
+          <div class="cover-image">
+            <img
+              src="./images/my-avatar.jpg"
+              alt="封面"
+              id="moments-cover-img"
+            />
+          </div>
+          <div class="user-info">
+            <div class="name" id="moments-user-name">微信用户</div>
+            <div class="avatar">
+              <img
+                src="./images/my-avatar.jpg"
+                alt="头像"
+                id="moments-avatar-img"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 朋友圈列表 -->
+        <div class="moments-list content-scrollable">
+          <!-- 朋友圈动态项 will be loaded by moments.js -->
+          <!-- Example structure (will be removed by JS loading) -->
+          <!--
+            <div class="moment-item">
+                <div class="moment-user">
+                    <div class="avatar">
+                        <img src="./images/avatar1.jpg" alt="头像">
+                    </div>
+                    <div class="name">张三</div>
+                </div>
+                <div class="moment-content">
+                    <div class="text">今天天气真好，出来散步！</div>
+                    <div class="images image-grid-1">
+                        <div class="image-item"><img src="./images/avatar2.jpg" alt="动态图片"></div>
+                    </div>
+                </div>
+                <div class="moment-info">
+                    <div class="time">10分钟前</div>
+                    <div class="actions">
+                        <i class="icon-heart-outline"></i>
+                        <i class="icon-comment"></i>
+                    </div>
+                </div>
+                <div class="moment-likes" style="display: none;">
+                    <i class="icon-heart"></i>
+                    <div class="like-users"></div>
+                </div>
+                <div class="moment-comments" style="display: none;">
+                </div>
+            </div>
+             -->
+        </div>
+      </div>
     </div>
-    <script src="./js/moments.js"></script>
-</body>
+    <!-- Use type="module" to allow import/export -->
+    <script type="module" src="./js/moments.js"></script>
+    <script>
+      // Restore avatar and name from localStorage on this page too
+      document.addEventListener("DOMContentLoaded", () => {
+        const savedAvatar = localStorage.getItem("userAvatar");
+        const savedName = localStorage.getItem("userName");
+
+        if (savedAvatar) {
+          const coverImg = document.getElementById("moments-cover-img");
+          const avatarImg = document.getElementById("moments-avatar-img");
+          if (coverImg) coverImg.src = savedAvatar; // Optionally update cover too
+          if (avatarImg) avatarImg.src = savedAvatar;
+        }
+        if (savedName) {
+          const nameEl = document.getElementById("moments-user-name");
+          if (nameEl) nameEl.textContent = savedName;
+        }
+      });
+    </script>
+  </body>
 </html>

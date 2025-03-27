@@ -1,175 +1,137 @@
-.icon-plus {
-    background-image: url('../images/icons/plus.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
+/* Base Icon Style */
+[class^="icon-"],
+[class*=" icon-"] {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  vertical-align: middle;
 }
 
-.icon-user-plus {
-    background-image: url('../images/icons/user-plus.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
+/* Tab Bar Icons */
+.tab-item i {
+  width: 26px;
+  height: 26px;
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
-.icon-image {
-    background-image: url('../images/icons/image.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-link {
-    background-image: url('../images/icons/link.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-folder {
-    background-image: url('../images/icons/folder.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-music {
-    background-image: url('../images/icons/music.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-pay {
-    background-image: url('../images/icons/pay.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-shopping {
-    background-image: url('../images/icons/shopping.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-question {
-    background-image: url('../images/icons/question.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-infinity {
-    background-image: url('../images/icons/infinity.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-smile {
-    background-image: url('../images/icons/smile.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-heart {
-    background-image: url('../images/icons/heart.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-check {
-    background-image: url('../images/icons/check.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-wallet {
-    background-image: url('../images/icons/wallet.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-heart-outline {
-    background-image: url('../images/icons/heart-outline.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-settings {
-    background-image: url('../images/icons/settings.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
-.icon-cube {
-    background-image: url('../images/icons/cube.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
+/* Specific Icons */
 .icon-chat {
-    background-image: url('../images/icons/chat.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
+  background-image: url("../images/icons/wx2.svg");
+}
+.icon-user-plus {
+  background-image: url("../images/icons/微信通讯录1.svg");
+}
+.icon-discover {
+  background-image: url("../images/icons/发现1.svg");
+}
+.icon-me {
+  background-image: url("../images/icons/我1.svg");
 }
 
+/* Other Icons */
+.icon-plus {
+  background-image: url("../images/icons/plus.png");
+}
+.icon-image {
+  background-image: url("../images/icons/image.png");
+}
+.icon-link {
+  background-image: url("../images/icons/link.png");
+}
+.icon-folder {
+  background-image: url("../images/icons/folder.png");
+}
+.icon-music {
+  background-image: url("../images/icons/music.png");
+}
+.icon-pay {
+  background-image: url("../images/icons/pay.png");
+}
+.icon-shopping {
+  background-image: url("../images/icons/shopping.png");
+}
+.icon-question {
+  background-image: url("../images/icons/question.png");
+}
+.icon-infinity {
+  background-image: url("../images/icons/infinity.png");
+}
+.icon-emoji {
+  background-image: url("../images/icons/emoji.png");
+}
+.icon-heart {
+  background-image: url("../images/icons/heart.png");
+}
+.icon-check {
+  background-image: url("../images/icons/check.png");
+}
+.icon-wallet {
+  background-image: url("../images/icons/wallet.png");
+}
+.icon-heart-outline {
+  background-image: url("../images/icons/heart-outline.png");
+}
+.icon-settings {
+  background-image: url("../images/icons/settings.png");
+}
 .icon-chat-outline {
-    background-image: url('../images/icons/chat-outline.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
+  background-image: url("../images/icons/chat-outline.png");
 }
-
 .icon-camera {
-    background-image: url('../images/icons/camera.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
+  background-image: url("../images/icons/camera.png");
 }
-
-.icon-camera-outline {
-    background-image: url('../images/icons/camera-outline.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-}
-
 .icon-search {
-    background-image: url('../images/icons/search.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
+  background-image: url("../images/icons/search.png");
+}
+.icon-microphone {
+  background-image: url("../images/icons/microphone.png");
+}
+.icon-angle-left {
+  background-image: url("../images/icons/angle-left.png");
+}
+.icon-angle-right {
+  background-image: url("../images/icons/angle-right.png");
+}
+.icon-comment {
+  background-image: url("../images/icons/comment.png");
+}
+.icon-ellipsis-h {
+  background-image: url("../images/icons/ellipsis-h.png");
+}
+.icon-qrcode {
+  background-image: url("../images/icons/qrcode.png");
+}
+.icon-star {
+  background-image: url("../images/icons/star.png");
+}
+
+/* Icon Sizes */
+.header-icons .icon i,
+.tab-item i {
+  width: 26px;
+  height: 26px;
+}
+.me-icon i {
+  width: 22px;
+  height: 22px;
+}
+.chat-input-area .input-buttons i {
+  width: 28px;
+  height: 28px;
+}
+.moment-info .actions i {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.moment-likes i.icon-heart {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
 }
